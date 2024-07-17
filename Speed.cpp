@@ -43,10 +43,6 @@ void Speed::update(const unsigned int numPoints, const unsigned int indexDevice)
 	}
 }
 
-double Speed::getSpeed() const {
-	return this->getSpeed(m_lSamples);
-}
-
 double Speed::getSpeed(const unsigned int indexDevice) const {
 	return m_mDeviceSamples.count(indexDevice) == 0 ? 0 : this->getSpeed(m_mDeviceSamples.at(indexDevice));
 }
@@ -69,7 +65,6 @@ void Speed::updateList(const unsigned int & numPoints, const long long & ns, sam
 	l.push_back(samplePair(ns, numPoints));
 
 	// Pop old samples until time difference between first and last element is less than or equal to m_sampleSeconds
-	// We don't need to check size of m_lSamples since it's always >= 1 at this point
 	while (l.size() > 2 && (l.back().first - l.front().first) / 1000000 > m_intervalSampleMs) {
 		l.pop_front();
 	}
