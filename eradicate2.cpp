@@ -145,7 +145,7 @@ std::string makePreprocessorInitHashExpression(const std::string & strAddressBin
 	std::random_device rd;
 	std::mt19937_64 eng(rd());
 	std::uniform_int_distribution<unsigned int> distr; // C++ requires integer type: "C2338	note : char, signed char, unsigned char, int8_t, and uint8_t are not allowed"
-	ethhash h = { 0 };
+	ethhash h = { };
 
 	h.b[0] = 0xff;
 	for (int i = 0; i < 20; ++i) {
