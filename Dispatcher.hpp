@@ -1,7 +1,6 @@
 #ifndef HPP_DISPATCHER
 #define HPP_DISPATCHER
 
-#include <stdexcept>
 #include <fstream>
 #include <string>
 #include <vector>

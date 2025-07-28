@@ -1,7 +1,6 @@
 #include "Dispatcher.hpp"
 
 // Includes
-#include <stdexcept>
 #include <iostream>
 #include <thread>
 #include <sstream>
