@@ -1,26 +1,47 @@
-CC=g++
-CDEFINES=
-SOURCES=Dispatcher.cpp eradicate2.cpp hexadecimal.cpp ModeFactory.cpp Speed.cpp sha3.cpp
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=ERADICATE2.x64
+BUILD_DIR		:= build
+CXX				?= c++
+CXXFLAGS		?= -std=c++11 -Wall -O2
 
-UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S),Darwin)
-	LDFLAGS=-framework OpenCL
-	CFLAGS=-c -std=c++11 -Wall -O2
+SOURCES			:= $(wildcard *.cpp)
+OBJS			:= $(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.o))
+EXECUTABLE		:= $(BUILD_DIR)/eradicate2
+
+ifeq ($(shell uname -s),Darwin)
+	LDFLAGS		:= -framework OpenCL
+	LDLIBS		:=
 else
-	LDFLAGS=-s -lOpenCL
-	CFLAGS=-c -std=c++11 -Wall -O2
+	LDFLAGS		:= -s
+	LDLIBS		:= -lOpenCL
 endif
 
-all: $(SOURCES) $(EXECUTABLE)
+.PHONY: clean
 
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+re: clean all
+all: link
+	@echo -e "\nSuccessfully built:\n  $(EXECUTABLE)"
 
-.cpp.o:
-	$(CC) $(CFLAGS) $(CDEFINES) $< -o $@
+link: $(EXECUTABLE)
+	@echo "  ✅ done"
+
+compile: $(OBJS)
+	@echo "  ✅ done"
+
+print-message-compile-cpp:
+	@echo -e "\nCompiling C++ files..."
+
+print-message-link-cpp:
+	@echo -e "\nLinking executable..."
+
+$(EXECUTABLE): $(OBJS) | compile print-message-link-cpp
+	@printf "  "
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+
+$(BUILD_DIR)/%.o: %.cpp | print-message-compile-cpp
+	@mkdir -p $(@D)
+	@printf "  "
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -rf *.o
-
+	@echo -en "Cleaning '$(BUILD_DIR)/'...\n  "
+	rm -rf $(BUILD_DIR)
+	@echo "  ✅ done"
