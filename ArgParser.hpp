@@ -20,11 +20,11 @@ class ArgParser {
 			public:
 				Argument(T & t) : m_t(t) {}
 				~Argument() {}
-	
+
 				void parse(const std::string & s) {
 					m_t = lexical_cast::read<T>(s);
 				}
-	
+
 			private:
 				T & m_t;
 		};

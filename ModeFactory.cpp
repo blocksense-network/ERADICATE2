@@ -26,7 +26,7 @@ mode ModeFactory::matching(const std::string strHex) {
 	std::fill( r.data2, r.data2 + sizeof(r.data2), cl_uchar(0) );
 
 	auto index = 0;
-	
+
 	for( size_t i = 0; i < strHex.size(); i += 2 ) {
 		const auto indexHi = hexValueNoException(strHex[i]);
 		const auto indexLo = i + 1 < strHex.size() ? hexValueNoException(strHex[i+1]) : std::string::npos;
