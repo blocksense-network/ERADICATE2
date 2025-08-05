@@ -1,6 +1,6 @@
 BUILD_DIR		:= build
 CXX				?= c++
-CXXFLAGS		?= -std=c++11 -Wall -O2 -I$(BUILD_DIR)
+CXXFLAGS		?= -DCL_TARGET_OPENCL_VERSION=120 -std=c++11 -Wall -O2 -I$(BUILD_DIR)
 
 SOURCES			:= $(wildcard *.cpp)
 OBJS			:= $(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.o))
