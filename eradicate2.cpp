@@ -24,13 +24,8 @@
 #include "help.hpp"
 #include "sha3.hpp"
 
-std::string readFile(const char * const szFilename)
-{
-	std::ifstream in(szFilename, std::ios::in | std::ios::binary);
-	std::ostringstream contents;
-	contents << in.rdbuf();
-	return contents.str();
-}
+#include "keccak.cl.h"
+#include "eradicate2.cl.h"
 
 std::vector<cl_device_id> getAllDevices(cl_device_type deviceType = CL_DEVICE_TYPE_GPU)
 {
@@ -334,9 +329,7 @@ int main(int argc, char * * argv) {
 		} else {
 			// Create a program from the kernel source
 			std::cout << "  Compiling kernel..." << std::flush;
-			const std::string strKeccak = readFile("keccak.cl");
-			const std::string strVanity = readFile("eradicate2.cl");
-			const char * szKernels[] = { strKeccak.c_str(), strVanity.c_str() };
+			const char * szKernels[] = { keccak_cl_src, eradicate2_cl_src };
 
 			clProgram = clCreateProgramWithSource(clContext, sizeof(szKernels) / sizeof(char *), szKernels, NULL, &errorCode);
 			if (printResult(clProgram, errorCode)) {
